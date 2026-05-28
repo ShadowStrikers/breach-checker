@@ -3,97 +3,96 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
-body{font-family:'DM Sans',sans-serif;background:var(--color-background-tertiary);color:var(--color-text-primary)}
-.page{max-width:620px;margin:0 auto;padding:2rem 1rem 3rem}
+body{font-family:'DM Sans',sans-serif;background:#f0f2f5;color:#1a1a1a;min-height:100vh}
+.page{max-width:600px;margin:0 auto;padding:2rem 1rem 3rem}
 .brand{display:flex;align-items:center;gap:10px;margin-bottom:2rem}
-.brand-icon{width:36px;height:36px;background:var(--color-background-danger);border-radius:var(--border-radius-md);display:flex;align-items:center;justify-content:center}
-.brand-icon i{font-size:18px;color:var(--color-text-danger)}
-.brand-name{font-size:15px;font-weight:500}
-.brand-version{font-size:11px;color:var(--color-text-tertiary);font-family:'DM Mono',monospace;margin-top:1px}
-.hero{margin-bottom:2rem}
-.hero h1{font-size:26px;font-weight:500;line-height:1.25;margin-bottom:6px}
-.hero p{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
-.api-banner{background:var(--color-background-warning);border:0.5px solid var(--color-border-warning);border-radius:var(--border-radius-md);padding:10px 14px;margin-bottom:1rem;font-size:12px;color:var(--color-text-warning);display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.brand-icon{width:36px;height:36px;background:#fee2e2;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.brand-icon i{font-size:18px;color:#dc2626}
+.brand-name{font-size:15px;font-weight:500;color:#1a1a1a}
+.brand-version{font-size:11px;color:#888;font-family:'DM Mono',monospace;margin-top:1px}
+.hero{margin-bottom:1.5rem}
+.hero h1{font-size:26px;font-weight:500;color:#1a1a1a;line-height:1.25;margin-bottom:6px}
+.hero p{font-size:13px;color:#555;line-height:1.6}
+.api-banner{background:#fffbeb;border:1.5px solid #f59e0b;border-radius:8px;padding:10px 14px;margin-bottom:1rem;font-size:12px;color:#92400e;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
 .api-banner i{font-size:15px;flex-shrink:0;margin-top:1px}
-.api-banner a{color:var(--color-text-warning);font-weight:500}
-.key-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:8px}
-.input-label{font-size:11px;font-weight:500;color:var(--color-text-secondary);letter-spacing:0.04em;margin-bottom:6px;text-transform:uppercase;font-family:'DM Mono',monospace}
-.inp{width:100%;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:10px 14px;font-family:'DM Mono',monospace;font-size:13px;background:var(--color-background-secondary);color:var(--color-text-primary);outline:none;transition:border-color .15s;margin-bottom:1rem}
-.inp:focus{border-color:var(--color-border-primary);box-shadow:0 0 0 3px rgba(0,0,0,0.04)}
-.inp::placeholder{color:var(--color-text-tertiary);font-family:'DM Sans',sans-serif}
-.search-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1rem}
+.api-banner a{color:#92400e;font-weight:500}
+.card{background:#fff;border:1.5px solid #d1d5db;border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+.input-label{font-size:11px;font-weight:500;color:#555;letter-spacing:0.05em;margin-bottom:6px;text-transform:uppercase;font-family:'DM Mono',monospace}
+.inp{width:100%;border:1.5px solid #d1d5db;border-radius:8px;padding:10px 14px;font-family:'DM Mono',monospace;font-size:13px;background:#f9fafb;color:#1a1a1a;outline:none;transition:border-color .15s;margin-bottom:1rem}
+.inp:focus{border-color:#6b7280;background:#fff}
+.inp::placeholder{color:#aaa;font-family:'DM Sans',sans-serif}
 .input-wrap{display:flex;gap:8px}
-.email-inp{flex:1;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:14px;background:var(--color-background-secondary);color:var(--color-text-primary);outline:none;transition:border-color .15s}
-.email-inp:focus{border-color:var(--color-border-primary);box-shadow:0 0 0 3px rgba(0,0,0,0.04)}
-.email-inp::placeholder{color:var(--color-text-tertiary)}
-.scan-btn{background:var(--color-text-primary);border:none;border-radius:var(--border-radius-md);padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--color-background-primary);cursor:pointer;white-space:nowrap;transition:opacity .15s}
-.scan-btn:hover{opacity:0.85}
-.scan-btn:disabled{opacity:0.35;cursor:not-allowed}
-.privacy-row{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-text-tertiary);margin-bottom:1.5rem}
+.email-inp{flex:1;border:1.5px solid #d1d5db;border-radius:8px;padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:14px;background:#f9fafb;color:#1a1a1a;outline:none;transition:border-color .15s}
+.email-inp:focus{border-color:#6b7280;background:#fff}
+.email-inp::placeholder{color:#aaa}
+.scan-btn{background:#1a1a1a;border:none;border-radius:8px;padding:10px 22px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:#fff;cursor:pointer;white-space:nowrap;transition:background .15s}
+.scan-btn:hover{background:#333}
+.scan-btn:disabled{background:#ccc;cursor:not-allowed}
+.privacy-row{display:flex;align-items:center;gap:6px;font-size:12px;color:#888;margin-bottom:1.5rem}
 .privacy-row i{font-size:13px}
-.status-row{display:none;align-items:center;gap:10px;padding:10px 0;font-size:13px;color:var(--color-text-secondary)}
+.status-row{display:none;align-items:center;gap:10px;padding:10px 0;font-size:13px;color:#555}
 .status-row.show{display:flex}
-.spin{width:14px;height:14px;border:1.5px solid var(--color-border-secondary);border-top-color:var(--color-text-primary);border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0}
+.spin{width:14px;height:14px;border:2px solid #ddd;border-top-color:#1a1a1a;border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
-.result-banner{border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:1rem;display:none}
+.result-banner{border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;display:none}
 .result-banner.show{display:block}
-.result-banner.safe{background:var(--color-background-success);border:0.5px solid var(--color-border-success)}
-.result-banner.unsafe{background:var(--color-background-danger);border:0.5px solid var(--color-border-danger)}
+.result-banner.safe{background:#f0fdf4;border:1.5px solid #86efac}
+.result-banner.unsafe{background:#fff1f2;border:1.5px solid #fca5a5}
 .banner-top{display:flex;align-items:center;gap:10px}
-.banner-icon{width:32px;height:32px;border-radius:var(--border-radius-md);background:var(--color-background-primary);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.safe .banner-icon i{font-size:18px;color:var(--color-text-success)}
-.unsafe .banner-icon i{font-size:18px;color:var(--color-text-danger)}
+.banner-icon{width:32px;height:32px;border-radius:8px;background:#fff;border:1.5px solid #e5e7eb;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.safe .banner-icon i{font-size:18px;color:#16a34a}
+.unsafe .banner-icon i{font-size:18px;color:#dc2626}
 .banner-title{font-size:15px;font-weight:500}
-.safe .banner-title{color:var(--color-text-success)}
-.unsafe .banner-title{color:var(--color-text-danger)}
+.safe .banner-title{color:#15803d}
+.unsafe .banner-title{color:#b91c1c}
 .banner-sub{font-size:12px;margin-top:2px}
-.safe .banner-sub{color:var(--color-text-success)}
-.unsafe .banner-sub{color:var(--color-text-danger)}
+.safe .banner-sub{color:#166534}
+.unsafe .banner-sub{color:#991b1b}
 .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1rem}
-.stat-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px;display:none}
+.stat-card{background:#fff;border:1.5px solid #d1d5db;border-radius:8px;padding:12px;display:none}
 .stat-card.show{display:block}
-.stat-label{font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;font-family:'DM Mono',monospace}
-.stat-val{font-size:20px;font-weight:500}
-.stat-val.danger{color:var(--color-text-danger)}
-.stat-val.warn{color:var(--color-text-warning)}
-.section-head{font-size:11px;font-weight:500;color:var(--color-text-secondary);letter-spacing:0.05em;text-transform:uppercase;font-family:'DM Mono',monospace;margin-bottom:8px}
-.breach-list{display:flex;flex-direction:column;gap:6px;margin-bottom:1rem}
-.b-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;cursor:pointer;transition:border-color .15s}
-.b-card:hover{border-color:var(--color-border-secondary)}
-.b-card.open{border-color:var(--color-border-primary)}
+.stat-label{font-size:11px;color:#888;margin-bottom:4px;font-family:'DM Mono',monospace}
+.stat-val{font-size:20px;font-weight:500;color:#1a1a1a}
+.stat-val.danger{color:#dc2626}
+.stat-val.warn{color:#d97706}
+.section-head{font-size:11px;font-weight:500;color:#888;letter-spacing:0.05em;text-transform:uppercase;font-family:'DM Mono',monospace;margin-bottom:8px}
+.breach-list{display:flex;flex-direction:column;gap:8px;margin-bottom:1rem}
+.b-card{background:#fff;border:1.5px solid #d1d5db;border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .15s}
+.b-card:hover{border-color:#9ca3af}
+.b-card.open{border-color:#6b7280}
 .b-head{display:flex;align-items:center;gap:12px;padding:12px 14px}
 .b-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.b-dot.high{background:#E24B4A}
-.b-dot.med{background:#EF9F27}
-.b-dot.low{background:#639922}
-.b-name{font-size:14px;font-weight:500;flex:1}
+.b-dot.high{background:#dc2626}
+.b-dot.med{background:#d97706}
+.b-dot.low{background:#16a34a}
+.b-name{font-size:14px;font-weight:500;flex:1;color:#1a1a1a}
 .b-right{display:flex;align-items:center;gap:8px}
-.b-date{font-size:11px;color:var(--color-text-tertiary);font-family:'DM Mono',monospace}
+.b-date{font-size:11px;color:#888;font-family:'DM Mono',monospace}
 .sev-badge{font-size:10px;padding:2px 8px;border-radius:4px;font-family:'DM Mono',monospace;font-weight:500}
-.sev-high{background:#FCEBEB;color:#A32D2D}
-.sev-med{background:#FAEEDA;color:#633806}
-.sev-low{background:#EAF3DE;color:#27500A}
-.b-chevron{font-size:14px;color:var(--color-text-tertiary);transition:transform .2s}
+.sev-high{background:#fee2e2;color:#991b1b}
+.sev-med{background:#fef3c7;color:#92400e}
+.sev-low{background:#dcfce7;color:#166534}
+.b-chevron{font-size:14px;color:#aaa;transition:transform .2s}
 .b-card.open .b-chevron{transform:rotate(180deg)}
-.b-body{display:none;padding:12px 14px 14px;border-top:0.5px solid var(--color-border-tertiary)}
+.b-body{display:none;padding:12px 14px 14px;border-top:1.5px solid #e5e7eb}
 .b-card.open .b-body{display:block}
-.b-desc{font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:10px}
+.b-desc{font-size:13px;color:#555;line-height:1.6;margin-bottom:10px}
 .b-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
-.b-tag{font-size:11px;padding:3px 8px;border-radius:4px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);font-family:'DM Mono',monospace}
-.b-count{font-size:12px;color:var(--color-text-tertiary)}
-.b-count strong{color:var(--color-text-primary);font-weight:500}
-.ai-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1rem;display:none}
+.b-tag{font-size:11px;padding:3px 8px;border-radius:4px;background:#f3f4f6;border:1px solid #e5e7eb;color:#555;font-family:'DM Mono',monospace}
+.b-count{font-size:12px;color:#888}
+.b-count strong{color:#1a1a1a;font-weight:500}
+.ai-card{background:#fff;border:1.5px solid #d1d5db;border-radius:12px;padding:1.25rem;margin-bottom:1rem;display:none}
 .ai-card.show{display:block}
 .ai-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.ai-head i{font-size:16px;color:var(--color-text-secondary)}
-.ai-text{font-size:13px;color:var(--color-text-secondary);line-height:1.7}
-.cursor{display:inline-block;width:2px;height:14px;background:var(--color-text-primary);animation:blink 1s step-end infinite;vertical-align:middle;margin-left:1px}
+.ai-head i{font-size:16px;color:#888}
+.ai-text{font-size:13px;color:#444;line-height:1.7}
+.cursor{display:inline-block;width:2px;height:14px;background:#1a1a1a;animation:blink 1s step-end infinite;vertical-align:middle;margin-left:1px}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-.footer{font-size:12px;color:var(--color-text-tertiary);padding-top:1rem;border-top:0.5px solid var(--color-border-tertiary);line-height:1.6}
-.footer a{color:var(--color-text-secondary);text-decoration:underline;text-underline-offset:2px}
+.footer{font-size:12px;color:#999;padding-top:1rem;border-top:1.5px solid #e5e7eb;line-height:1.6}
+.footer a{color:#555;text-decoration:underline;text-underline-offset:2px}
 </style>
 
-<h2 class="sr-only">Breach email checker powered by Google Gemini — enter your email to scan for known data breaches.</h2>
+<h2 class="sr-only">Breach email checker — enter your email to scan for known data breaches.</h2>
 
 <div class="page">
   <div class="brand">
@@ -111,12 +110,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--color-background-tertiary
 
   <div class="api-banner">
     <i class="ti ti-info-circle" aria-hidden="true"></i>
-    <span>This tool uses the Google Gemini free API. Get your free key at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com</a> — no credit card needed. Your key is only stored in your browser session.</span>
+    <span>Uses the Google Gemini free API. Get your key at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com</a> — no credit card needed.</span>
   </div>
 
-  <div class="key-card">
+  <div class="card">
     <div class="input-label">Gemini API key</div>
-    <input class="inp" type="password" id="apiKey" placeholder="Paste your Gemini API key here..." autocomplete="off" />
+    <input class="inp" type="text" id="apiKey" placeholder="Paste your Gemini API key here..." autocomplete="off" />
     <div class="input-label">Email address</div>
     <div class="input-wrap">
       <input class="email-inp" type="email" id="emailInp" placeholder="you@example.com" autocomplete="off" spellcheck="false" />
@@ -164,12 +163,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--color-background-tertiary
   </div>
 
   <div class="footer">
-    Demo uses simulated breach data. For production, connect the <a href="https://haveibeenpwned.com/API/v3" target="_blank">HIBP API v3</a> with k-anonymity so raw emails are never transmitted. Gemini free tier allows 1,500 requests/day.
+    Demo uses simulated breach data. For production, connect the <a href="https://haveibeenpwned.com/API/v3" target="_blank">HIBP API v3</a> with k-anonymity so raw emails are never transmitted. Gemini free tier: 1,500 requests/day.
   </div>
 </div>
 
 <script>
-const DB = {
+const DB={
   "test@example.com":[
     {name:"LinkedIn",date:"2021-06-22",count:700000000,sev:"high",desc:"In June 2021, data associated with 700 million LinkedIn accounts was scraped and posted for sale. Exposed data included professional profiles, phone numbers, and location data.",classes:["Email addresses","Phone numbers","Geographic locations","Job titles","Names"]},
     {name:"Adobe",date:"2013-10-04",count:153000000,sev:"high",desc:"Adobe suffered a massive breach exposing encrypted passwords and credit card data. Password hints were stored in plain text, allowing easy reconstruction of many passwords.",classes:["Email addresses","Password hints","Passwords","Usernames"]},
@@ -185,68 +184,56 @@ const DB = {
 };
 
 function fmt(n){
-  if(n>=1e9) return (n/1e9).toFixed(1)+'B';
-  if(n>=1e6) return Math.round(n/1e6)+'M';
-  if(n>=1e3) return Math.round(n/1e3)+'K';
+  if(n>=1e9)return(n/1e9).toFixed(1)+'B';
+  if(n>=1e6)return Math.round(n/1e6)+'M';
+  if(n>=1e3)return Math.round(n/1e3)+'K';
   return n;
 }
-
 function wait(ms){return new Promise(r=>setTimeout(r,ms));}
-
 function reset(){
-  document.getElementById('resultBanner').className='result-banner';
-  document.getElementById('resultBanner').style.display='none';
+  const rb=document.getElementById('resultBanner');
+  rb.className='result-banner';rb.style.display='none';
   document.getElementById('aiCard').className='ai-card';
   document.getElementById('breachSection').style.display='none';
   document.getElementById('breachList').innerHTML='';
   ['s1','s2','s3'].forEach(id=>document.getElementById(id).className='stat-card');
 }
-
 async function runScan(){
-  const email = document.getElementById('emailInp').value.trim().toLowerCase();
-  const apiKey = document.getElementById('apiKey').value.trim();
+  const email=document.getElementById('emailInp').value.trim().toLowerCase();
+  const apiKey=document.getElementById('apiKey').value.trim();
   if(!email||!email.includes('@')){document.getElementById('emailInp').focus();return;}
   const btn=document.getElementById('scanBtn');
-  btn.disabled=true;
-  reset();
+  btn.disabled=true;reset();
   const statusRow=document.getElementById('statusRow');
   const statusTxt=document.getElementById('statusTxt');
   statusRow.className='status-row show';
-  const steps=['Hashing query for privacy...','Cross-referencing breach records...','Compiling results...'];
-  for(let s of steps){statusTxt.textContent=s;await wait(520);}
+  for(let s of['Hashing query for privacy...','Cross-referencing breach records...','Compiling results...']){
+    statusTxt.textContent=s;await wait(520);
+  }
   statusRow.className='status-row';
-  const breaches=DB[email]||[];
-  showResults(breaches, apiKey);
+  showResults(DB[email]||[],apiKey);
   btn.disabled=false;
 }
-
-function showResults(breaches, apiKey){
+function showResults(breaches,apiKey){
   const banner=document.getElementById('resultBanner');
-  const icon=document.getElementById('bannerIcon');
-  const title=document.getElementById('bannerTitle');
-  const sub=document.getElementById('bannerSub');
   banner.style.display='block';
-
   if(breaches.length===0){
     banner.className='result-banner safe show';
-    icon.className='ti ti-shield-check';
-    title.textContent='No breaches found';
-    sub.textContent='This email does not appear in any known breach database.';
+    document.getElementById('bannerIcon').className='ti ti-shield-check';
+    document.getElementById('bannerTitle').textContent='No breaches found';
+    document.getElementById('bannerSub').textContent='This email does not appear in any known breach database.';
     return;
   }
-
   banner.className='result-banner unsafe show';
-  icon.className='ti ti-alert-triangle';
-  title.textContent=`Found in ${breaches.length} breach${breaches.length>1?'es':''}`;
+  document.getElementById('bannerIcon').className='ti ti-alert-triangle';
+  document.getElementById('bannerTitle').textContent=`Found in ${breaches.length} breach${breaches.length>1?'es':''}`;
   const total=breaches.reduce((a,b)=>a+b.count,0);
-  sub.textContent=`Across approximately ${fmt(total)} exposed records.`;
-
+  document.getElementById('bannerSub').textContent=`Across approximately ${fmt(total)} exposed records.`;
   const allClasses=[...new Set(breaches.flatMap(b=>b.classes))];
   document.getElementById('sv1').textContent=breaches.length;
   document.getElementById('sv2').textContent=fmt(total);
   document.getElementById('sv3').textContent=allClasses.length;
   ['s1','s2','s3'].forEach(id=>document.getElementById(id).className='stat-card show');
-
   document.getElementById('breachSection').style.display='block';
   document.getElementById('breachList').innerHTML=breaches.map((b,i)=>`
     <div class="b-card" id="bc${i}" onclick="toggle(${i})">
@@ -265,35 +252,25 @@ function showResults(breaches, apiKey){
         <div class="b-count">Records exposed: <strong>${fmt(b.count)}</strong></div>
       </div>
     </div>`).join('');
-
-  getAI(breaches, apiKey);
+  getAI(breaches,apiKey);
 }
-
 function toggle(i){
   const card=document.getElementById(`bc${i}`);
   const open=card.classList.contains('open');
   document.querySelectorAll('.b-card').forEach(c=>c.classList.remove('open'));
-  if(!open) card.classList.add('open');
+  if(!open)card.classList.add('open');
 }
-
-async function getAI(breaches, apiKey){
+async function getAI(breaches,apiKey){
   const card=document.getElementById('aiCard');
   const textEl=document.getElementById('aiText');
   card.className='ai-card show';
-
-  if(!apiKey){
-    textEl.textContent='Add your Gemini API key above to enable AI risk assessment.';
-    return;
-  }
-
+  if(!apiKey){textEl.textContent='Add your Gemini API key above to enable AI risk assessment.';return;}
   textEl.innerHTML='<span class="cursor"></span>';
   const summary=breaches.map(b=>`${b.name} (${b.date.slice(0,4)}): exposed ${b.classes.join(', ')}`).join('; ');
-  const prompt=`You are a cybersecurity expert advising a non-technical person. Their email appeared in ${breaches.length} data breach(es): ${summary}. Write 3-4 sentences of plain prose explaining: the real-world risk from these specific breaches, the single most urgent action to take, and one or two other concrete steps. Be calm, direct, and practical. No bullet points. No headers. Do not mention the email address.`;
-
+  const prompt=`You are a cybersecurity expert advising a non-technical person. Their email appeared in ${breaches.length} data breach(es): ${summary}. Write 3-4 sentences of plain prose explaining: the real-world risk, the single most urgent action, and one or two other concrete steps. Be calm, direct, practical. No bullet points. No headers. Do not mention the email address.`;
   try{
     const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
+      method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})
     });
     const d=await r.json();
@@ -302,10 +279,7 @@ async function getAI(breaches, apiKey){
     textEl.textContent='';
     let i=0;
     (function type(){if(i<t.length){textEl.textContent+=t[i++];setTimeout(type,11);}})();
-  }catch(e){
-    textEl.textContent='Could not reach Gemini API. Check your key and try again.';
-  }
+  }catch(e){textEl.textContent='Could not reach Gemini API. Check your key and try again.';}
 }
-
 document.getElementById('emailInp').addEventListener('keydown',e=>{if(e.key==='Enter')runScan();});
 </script>
