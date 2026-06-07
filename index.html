@@ -1,285 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="BreachWatch — check if your email appears in known data breaches, with AI-generated risk analysis." />
+  <title>BreachWatch — Email Breach Checker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap');
-*{box-sizing:border-box;margin:0;padding:0}
-.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
-body{font-family:'DM Sans',sans-serif;background:#f0f2f5;color:#1a1a1a;min-height:100vh}
-.page{max-width:600px;margin:0 auto;padding:2rem 1rem 3rem}
-.brand{display:flex;align-items:center;gap:10px;margin-bottom:2rem}
-.brand-icon{width:36px;height:36px;background:#fee2e2;border-radius:8px;display:flex;align-items:center;justify-content:center}
-.brand-icon i{font-size:18px;color:#dc2626}
-.brand-name{font-size:15px;font-weight:500;color:#1a1a1a}
-.brand-version{font-size:11px;color:#888;font-family:'DM Mono',monospace;margin-top:1px}
-.hero{margin-bottom:1.5rem}
-.hero h1{font-size:26px;font-weight:500;color:#1a1a1a;line-height:1.25;margin-bottom:6px}
-.hero p{font-size:13px;color:#555;line-height:1.6}
-.api-banner{background:#fffbeb;border:1.5px solid #f59e0b;border-radius:8px;padding:10px 14px;margin-bottom:1rem;font-size:12px;color:#92400e;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
-.api-banner i{font-size:15px;flex-shrink:0;margin-top:1px}
-.api-banner a{color:#92400e;font-weight:500}
-.card{background:#fff;border:1.5px solid #d1d5db;border-radius:12px;padding:1.25rem;margin-bottom:1rem}
-.input-label{font-size:11px;font-weight:500;color:#555;letter-spacing:0.05em;margin-bottom:6px;text-transform:uppercase;font-family:'DM Mono',monospace}
-.inp{width:100%;border:1.5px solid #d1d5db;border-radius:8px;padding:10px 14px;font-family:'DM Mono',monospace;font-size:13px;background:#f9fafb;color:#1a1a1a;outline:none;transition:border-color .15s;margin-bottom:1rem}
-.inp:focus{border-color:#6b7280;background:#fff}
-.inp::placeholder{color:#aaa;font-family:'DM Sans',sans-serif}
-.input-wrap{display:flex;gap:8px}
-.email-inp{flex:1;border:1.5px solid #d1d5db;border-radius:8px;padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:14px;background:#f9fafb;color:#1a1a1a;outline:none;transition:border-color .15s}
-.email-inp:focus{border-color:#6b7280;background:#fff}
-.email-inp::placeholder{color:#aaa}
-.scan-btn{background:#1a1a1a;border:none;border-radius:8px;padding:10px 22px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:#fff;cursor:pointer;white-space:nowrap;transition:background .15s}
-.scan-btn:hover{background:#333}
-.scan-btn:disabled{background:#ccc;cursor:not-allowed}
-.privacy-row{display:flex;align-items:center;gap:6px;font-size:12px;color:#888;margin-bottom:1.5rem}
-.privacy-row i{font-size:13px}
-.status-row{display:none;align-items:center;gap:10px;padding:10px 0;font-size:13px;color:#555}
-.status-row.show{display:flex}
-.spin{width:14px;height:14px;border:2px solid #ddd;border-top-color:#1a1a1a;border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0}
-@keyframes spin{to{transform:rotate(360deg)}}
-.result-banner{border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;display:none}
-.result-banner.show{display:block}
-.result-banner.safe{background:#f0fdf4;border:1.5px solid #86efac}
-.result-banner.unsafe{background:#fff1f2;border:1.5px solid #fca5a5}
-.banner-top{display:flex;align-items:center;gap:10px}
-.banner-icon{width:32px;height:32px;border-radius:8px;background:#fff;border:1.5px solid #e5e7eb;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.safe .banner-icon i{font-size:18px;color:#16a34a}
-.unsafe .banner-icon i{font-size:18px;color:#dc2626}
-.banner-title{font-size:15px;font-weight:500}
-.safe .banner-title{color:#15803d}
-.unsafe .banner-title{color:#b91c1c}
-.banner-sub{font-size:12px;margin-top:2px}
-.safe .banner-sub{color:#166534}
-.unsafe .banner-sub{color:#991b1b}
-.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1rem}
-.stat-card{background:#fff;border:1.5px solid #d1d5db;border-radius:8px;padding:12px;display:none}
-.stat-card.show{display:block}
-.stat-label{font-size:11px;color:#888;margin-bottom:4px;font-family:'DM Mono',monospace}
-.stat-val{font-size:20px;font-weight:500;color:#1a1a1a}
-.stat-val.danger{color:#dc2626}
-.stat-val.warn{color:#d97706}
-.section-head{font-size:11px;font-weight:500;color:#888;letter-spacing:0.05em;text-transform:uppercase;font-family:'DM Mono',monospace;margin-bottom:8px}
-.breach-list{display:flex;flex-direction:column;gap:8px;margin-bottom:1rem}
-.b-card{background:#fff;border:1.5px solid #d1d5db;border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .15s}
-.b-card:hover{border-color:#9ca3af}
-.b-card.open{border-color:#6b7280}
-.b-head{display:flex;align-items:center;gap:12px;padding:12px 14px}
-.b-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.b-dot.high{background:#dc2626}
-.b-dot.med{background:#d97706}
-.b-dot.low{background:#16a34a}
-.b-name{font-size:14px;font-weight:500;flex:1;color:#1a1a1a}
-.b-right{display:flex;align-items:center;gap:8px}
-.b-date{font-size:11px;color:#888;font-family:'DM Mono',monospace}
-.sev-badge{font-size:10px;padding:2px 8px;border-radius:4px;font-family:'DM Mono',monospace;font-weight:500}
-.sev-high{background:#fee2e2;color:#991b1b}
-.sev-med{background:#fef3c7;color:#92400e}
-.sev-low{background:#dcfce7;color:#166534}
-.b-chevron{font-size:14px;color:#aaa;transition:transform .2s}
-.b-card.open .b-chevron{transform:rotate(180deg)}
-.b-body{display:none;padding:12px 14px 14px;border-top:1.5px solid #e5e7eb}
-.b-card.open .b-body{display:block}
-.b-desc{font-size:13px;color:#555;line-height:1.6;margin-bottom:10px}
-.b-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
-.b-tag{font-size:11px;padding:3px 8px;border-radius:4px;background:#f3f4f6;border:1px solid #e5e7eb;color:#555;font-family:'DM Mono',monospace}
-.b-count{font-size:12px;color:#888}
-.b-count strong{color:#1a1a1a;font-weight:500}
-.ai-card{background:#fff;border:1.5px solid #d1d5db;border-radius:12px;padding:1.25rem;margin-bottom:1rem;display:none}
-.ai-card.show{display:block}
-.ai-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.ai-head i{font-size:16px;color:#888}
-.ai-text{font-size:13px;color:#444;line-height:1.7}
-.cursor{display:inline-block;width:2px;height:14px;background:#1a1a1a;animation:blink 1s step-end infinite;vertical-align:middle;margin-left:1px}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-.footer{font-size:12px;color:#999;padding-top:1rem;border-top:1.5px solid #e5e7eb;line-height:1.6}
-.footer a{color:#555;text-decoration:underline;text-underline-offset:2px}
-</style>
+    :root {
+      --accent: #00d4ff;
+      --accent-dim: rgba(0,212,255,0.10);
+      --accent-border: rgba(0,212,255,0.18);
+      --accent-border2: rgba(0,212,255,0.38);
+      --surface: #080f14;
+      --surface2: #0b141a;
+      --surface3: #0f1c24;
+      --text: #bde4f0;
+      --text-dim: #3d6070;
+      --red: #f87171;
+      --amber: #fbbf24;
+      --mono: 'DM Mono', monospace;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #050c10;
+      background-image:
+        radial-gradient(circle at top left,  rgba(0,212,255,0.14), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(0,160,200,0.09), transparent 30%),
+        linear-gradient(180deg, #060d12, #050b0f 40%, #040810);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Page wrapper ── */
+    .page {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 3rem 1.25rem 4rem;
+    }
+
+    /* ── Brand ── */
+    .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 2rem; }
+    .brand-icon {
+      width: 42px; height: 42px;
+      background: var(--accent-dim);
+      border: 1px solid var(--accent-border2);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 18px rgba(0,212,255,0.15);
+    }
+    .brand-icon i { font-size: 20px; color: var(--accent); }
+    .brand-name { font-size: 16px; font-weight: 600; color: var(--text); letter-spacing: -.01em; }
+    .brand-version { font-size: 11px; color: var(--text-dim); font-family: var(--mono); margin-top: 2px; letter-spacing: .06em; }
+
+    /* ── Hero ── */
+    .hero { margin-bottom: 1.75rem; }
+    .hero h1 {
+      font-size: 30px; font-weight: 600; line-height: 1.2; margin-bottom: 8px;
+      background: linear-gradient(135deg, #67e8f9, #00d4ff 50%, #0891b2);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero p { font-size: 14px; color: var(--text-dim); line-height: 1.65; }
+
+    /* ── API Banner ── */
+    .api-banner {
+      background: rgba(168,85,247,0.06);
+      border: 1px solid var(--accent-border);
+      border-radius: 10px;
+      padding: 11px 14px;
+      margin-bottom: 1.25rem;
+      font-size: 12.5px;
+      color: var(--text-dim);
+      display: flex; align-items: flex-start; gap: 9px; line-height: 1.55;
+    }
+    .api-banner i { font-size: 15px; flex-shrink: 0; margin-top: 1px; color: var(--accent); }
+    .api-banner a { color: var(--accent); font-weight: 500; text-decoration: none; }
+    .api-banner a:hover { text-decoration: underline; }
+
+    /* ── Card / Inputs ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--accent-border);
+      border-radius: 16px;
+      padding: 1.4rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.25);
+    }
+    .input-label {
+      font-size: 10.5px; font-weight: 500; color: var(--text-dim);
+      letter-spacing: .12em; margin-bottom: 7px; text-transform: uppercase;
+      font-family: var(--mono);
+    }
+    .inp {
+      width: 100%;
+      border: 1px solid var(--accent-border);
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-family: var(--mono);
+      font-size: 13px;
+      background: var(--surface2);
+      color: var(--text);
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+      margin-bottom: 1.1rem;
+    }
+    .inp:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,212,255,0.12); }
+    .inp::placeholder { color: var(--text-dim); }
+
+    .input-wrap { display: flex; gap: 8px; }
+    .email-inp {
+      flex: 1;
+      border: 1px solid var(--accent-border);
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      background: var(--surface2);
+      color: var(--text);
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .email-inp:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,212,255,0.12); }
+    .email-inp::placeholder { color: var(--text-dim); }
+
+    .scan-btn {
+      background: var(--accent);
+      border: none;
+      border-radius: 10px;
+      padding: 11px 24px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #030c10;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity .15s, transform .15s, box-shadow .15s;
+      box-shadow: 0 0 20px rgba(0,212,255,0.30);
+    }
+    .scan-btn:hover { opacity: .88; transform: translateY(-1px); box-shadow: 0 0 28px rgba(0,212,255,0.45); }
+    .scan-btn:disabled { background: var(--surface3); color: var(--text-dim); box-shadow: none; cursor: not-allowed; transform: none; }
+
+    /* ── Privacy row ── */
+    .privacy-row { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--text-dim); margin-bottom: 1.5rem; }
+    .privacy-row i { font-size: 13px; color: var(--accent); opacity: .7; }
+
+    /* ── Status ── */
+    .status-row { display: none; align-items: center; gap: 10px; padding: 10px 0; font-size: 13px; color: var(--text-dim); }
+    .status-row.show { display: flex; }
+    .spin {
+      width: 14px; height: 14px;
+      border: 2px solid var(--accent-border2);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .65s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Result banner ── */
+    .result-banner { border-radius: 14px; padding: 1rem 1.25rem; margin-bottom: 1rem; display: none; }
+    .result-banner.show { display: block; }
+    .result-banner.safe   { background: rgba(0,212,255,0.06); border: 1px solid var(--accent-border2); }
+    .result-banner.unsafe { background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.3); }
+    .banner-top { display: flex; align-items: center; gap: 12px; }
+    .banner-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: var(--surface2);
+      border: 1px solid var(--accent-border);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .safe  .banner-icon i { font-size: 18px; color: var(--accent); }
+    .unsafe .banner-icon i { font-size: 18px; color: var(--red); }
+    .banner-title { font-size: 15px; font-weight: 600; }
+    .safe  .banner-title { color: #67e8f9; }
+    .unsafe .banner-title { color: var(--red); }
+    .banner-sub { font-size: 12.5px; margin-top: 3px; color: var(--text-dim); }
+
+    /* ── Stats ── */
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 1rem; }
+    .stat-card { background: var(--surface); border: 1px solid var(--accent-border); border-radius: 10px; padding: 14px; display: none; }
+    .stat-card.show { display: block; }
+    .stat-label { font-size: 10.5px; color: var(--text-dim); margin-bottom: 5px; font-family: var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+    .stat-val { font-size: 22px; font-weight: 600; color: var(--text); }
+    .stat-val.danger { color: var(--red); }
+    .stat-val.warn   { color: var(--amber); }
+
+    /* ── Section head ── */
+    .section-head {
+      font-size: 10.5px; font-weight: 500; color: var(--text-dim);
+      letter-spacing: .12em; text-transform: uppercase;
+      font-family: var(--mono); margin-bottom: 10px;
+    }
+
+    /* ── Breach list ── */
+    .breach-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.25rem; }
+    .b-card {
+      background: var(--surface);
+      border: 1px solid var(--accent-border);
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .b-card:hover { border-color: var(--accent-border2); box-shadow: 0 2px 16px rgba(0,212,255,0.08); }
+    .b-card.open  { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+    .b-head { display: flex; align-items: center; gap: 12px; padding: 13px 15px; }
+    .b-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .b-dot.high { background: var(--red); box-shadow: 0 0 6px rgba(248,113,113,0.5); }
+    .b-dot.med  { background: var(--amber); box-shadow: 0 0 6px rgba(251,191,36,0.4); }
+    .b-dot.low  { background: var(--accent); box-shadow: 0 0 6px rgba(0,212,255,0.4); }
+    .b-name  { font-size: 14px; font-weight: 500; flex: 1; color: var(--text); }
+    .b-right { display: flex; align-items: center; gap: 8px; }
+    .b-date  { font-size: 11px; color: var(--text-dim); font-family: var(--mono); }
+    .sev-badge { font-size: 10px; padding: 2px 9px; border-radius: 6px; font-family: var(--mono); font-weight: 500; letter-spacing: .04em; }
+    .sev-high { background: rgba(248,113,113,0.15); color: var(--red); }
+    .sev-med  { background: rgba(251,191,36,0.12); color: var(--amber); }
+    .sev-low  { background: rgba(0,212,255,0.10); color: #67e8f9; }
+    .b-chevron { font-size: 14px; color: var(--text-dim); transition: transform .2s, color .2s; }
+    .b-card.open .b-chevron { transform: rotate(180deg); color: var(--accent); }
+    .b-body { display: none; padding: 13px 15px 15px; border-top: 1px solid var(--accent-border); }
+    .b-card.open .b-body { display: block; }
+    .b-desc { font-size: 13px; color: var(--text-dim); line-height: 1.65; margin-bottom: 10px; }
+    .b-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 9px; }
+    .b-tag { font-size: 11px; padding: 3px 9px; border-radius: 6px; background: var(--surface3); border: 1px solid var(--accent-border); color: var(--text-dim); font-family: var(--mono); }
+    .b-count { font-size: 12px; color: var(--text-dim); }
+    .b-count strong { color: var(--text); font-weight: 500; }
+
+    /* ── AI card ── */
+    .ai-card {
+      background: var(--surface);
+      border: 1px solid var(--accent-border);
+      border-radius: 14px;
+      padding: 1.35rem;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    .ai-card.show { display: block; }
+    .ai-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .ai-head i { font-size: 16px; color: var(--accent); }
+    .ai-text { font-size: 13.5px; color: var(--text-dim); line-height: 1.75; }
+    .cursor { display: inline-block; width: 2px; height: 14px; background: var(--accent); animation: blink 1s step-end infinite; vertical-align: middle; margin-left: 1px; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    /* ── Footer ── */
+    footer {
+      font-size: 12px; color: var(--text-dim);
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--accent-border);
+      line-height: 1.7;
+    }
+    footer a { color: var(--accent); text-decoration: none; opacity: .85; }
+    footer a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 2px; }
+
+    @media (max-width: 480px) {
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .input-wrap { flex-direction: column; }
+      .scan-btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
 
 <h2 class="sr-only">Breach email checker — enter your email to scan for known data breaches.</h2>
 
 <div class="page">
-  <div class="brand">
+  <header class="brand">
     <div class="brand-icon"><i class="ti ti-shield-search" aria-hidden="true"></i></div>
     <div>
       <div class="brand-name">BreachWatch</div>
       <div class="brand-version">v1.0.0 — powered by Gemini (free)</div>
     </div>
-  </div>
+  </header>
 
-  <div class="hero">
-    <h1>Have you been<br>compromised?</h1>
-    <p>Check if your email appears in known data breaches, with AI-generated risk analysis — completely free.</p>
-  </div>
-
-  <div class="api-banner">
-    <i class="ti ti-info-circle" aria-hidden="true"></i>
-    <span>Uses the Google Gemini free API. Get your key at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com</a> — no credit card needed.</span>
-  </div>
-
-  <div class="card">
-    <div class="input-label">Gemini API key</div>
-    <input class="inp" type="text" id="apiKey" placeholder="Paste your Gemini API key here..." autocomplete="off" />
-    <div class="input-label">Email address</div>
-    <div class="input-wrap">
-      <input class="email-inp" type="email" id="emailInp" placeholder="you@example.com" autocomplete="off" spellcheck="false" />
-      <button class="scan-btn" id="scanBtn" onclick="runScan()">Scan now</button>
+  <main>
+    <div class="hero">
+      <h1>Have you been<br>compromised?</h1>
+      <p>Check if your email appears in known data breaches, with AI-generated risk analysis — completely free.</p>
     </div>
-  </div>
 
-  <div class="privacy-row">
-    <i class="ti ti-lock" aria-hidden="true"></i>
-    API key and email are never stored or sent anywhere except Google's API
-  </div>
+    <div class="api-banner" role="note">
+      <i class="ti ti-info-circle" aria-hidden="true"></i>
+      <span>Uses the Google Gemini free API. Get your key at <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com</a> — no credit card needed.</span>
+    </div>
 
-  <div class="status-row" id="statusRow">
-    <div class="spin"></div>
-    <span id="statusTxt">Querying breach database...</span>
-  </div>
-
-  <div class="result-banner" id="resultBanner">
-    <div class="banner-top">
-      <div class="banner-icon"><i id="bannerIcon" class="ti ti-check"></i></div>
-      <div>
-        <div class="banner-title" id="bannerTitle"></div>
-        <div class="banner-sub" id="bannerSub"></div>
+    <div class="card">
+      <div class="input-label">Gemini API key</div>
+      <input class="inp" type="text" id="apiKey" placeholder="Paste your Gemini API key here..." autocomplete="off" aria-label="Gemini API key" />
+      <div class="input-label">Email address</div>
+      <div class="input-wrap">
+        <input class="email-inp" type="email" id="emailInp" placeholder="you@example.com" autocomplete="off" spellcheck="false" aria-label="Email address to check" />
+        <button class="scan-btn" id="scanBtn" onclick="runScan()">Scan now</button>
       </div>
     </div>
-  </div>
 
-  <div class="stats-row">
-    <div class="stat-card" id="s1"><div class="stat-label">Breaches</div><div class="stat-val danger" id="sv1"></div></div>
-    <div class="stat-card" id="s2"><div class="stat-label">Records exposed</div><div class="stat-val warn" id="sv2"></div></div>
-    <div class="stat-card" id="s3"><div class="stat-label">Data types</div><div class="stat-val" id="sv3"></div></div>
-  </div>
-
-  <div id="breachSection" style="display:none">
-    <div class="section-head">Breach details</div>
-    <div class="breach-list" id="breachList"></div>
-  </div>
-
-  <div class="ai-card" id="aiCard">
-    <div class="ai-head">
-      <i class="ti ti-sparkles" aria-hidden="true"></i>
-      <div class="section-head" style="margin:0">AI risk assessment</div>
+    <div class="privacy-row">
+      <i class="ti ti-lock" aria-hidden="true"></i>
+      API key and email are never stored or sent anywhere except Google's API
     </div>
-    <div class="ai-text" id="aiText"><span class="cursor"></span></div>
-  </div>
 
-  <div class="footer">
-    Demo uses simulated breach data. For production, connect the <a href="https://haveibeenpwned.com/API/v3" target="_blank">HIBP API v3</a> with k-anonymity so raw emails are never transmitted. Gemini free tier: 1,500 requests/day.
-  </div>
+    <div class="status-row" id="statusRow" role="status" aria-live="polite">
+      <div class="spin" aria-hidden="true"></div>
+      <span id="statusTxt">Querying breach database...</span>
+    </div>
+
+    <div class="result-banner" id="resultBanner" role="alert">
+      <div class="banner-top">
+        <div class="banner-icon"><i id="bannerIcon" class="ti ti-check" aria-hidden="true"></i></div>
+        <div>
+          <div class="banner-title" id="bannerTitle"></div>
+          <div class="banner-sub" id="bannerSub"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card" id="s1"><div class="stat-label">Breaches</div><div class="stat-val danger" id="sv1"></div></div>
+      <div class="stat-card" id="s2"><div class="stat-label">Records exposed</div><div class="stat-val warn" id="sv2"></div></div>
+      <div class="stat-card" id="s3"><div class="stat-label">Data types</div><div class="stat-val" id="sv3"></div></div>
+    </div>
+
+    <div id="breachSection" style="display:none">
+      <div class="section-head">Breach details</div>
+      <div class="breach-list" id="breachList"></div>
+    </div>
+
+    <div class="ai-card" id="aiCard" aria-live="polite">
+      <div class="ai-head">
+        <i class="ti ti-sparkles" aria-hidden="true"></i>
+        <div class="section-head" style="margin:0">AI risk assessment</div>
+      </div>
+      <div class="ai-text" id="aiText"><span class="cursor"></span></div>
+    </div>
+  </main>
+
+  <footer>
+    Demo uses simulated breach data. For production, connect the <a href="https://haveibeenpwned.com/API/v3" target="_blank" rel="noopener">HIBP API v3</a> with k-anonymity so raw emails are never transmitted. Gemini free tier: 1,500 requests/day.
+  </footer>
 </div>
 
 <script>
-const DB={
-  "test@example.com":[
-    {name:"LinkedIn",date:"2021-06-22",count:700000000,sev:"high",desc:"In June 2021, data associated with 700 million LinkedIn accounts was scraped and posted for sale. Exposed data included professional profiles, phone numbers, and location data.",classes:["Email addresses","Phone numbers","Geographic locations","Job titles","Names"]},
-    {name:"Adobe",date:"2013-10-04",count:153000000,sev:"high",desc:"Adobe suffered a massive breach exposing encrypted passwords and credit card data. Password hints were stored in plain text, allowing easy reconstruction of many passwords.",classes:["Email addresses","Password hints","Passwords","Usernames"]},
-    {name:"Canva",date:"2019-05-24",count:137000000,sev:"med",desc:"Design platform Canva was attacked, exposing usernames, email addresses, names, cities of residence, and bcrypt-hashed passwords for 137 million users.",classes:["Email addresses","Geographic locations","Names","Passwords","Usernames"]}
+const DB = {
+  "test@example.com": [
+    { name: "LinkedIn",  date: "2021-06-22", count: 700000000,  sev: "high", desc: "In June 2021, data associated with 700 million LinkedIn accounts was scraped and posted for sale. Exposed data included professional profiles, phone numbers, and location data.", classes: ["Email addresses","Phone numbers","Geographic locations","Job titles","Names"] },
+    { name: "Adobe",     date: "2013-10-04", count: 153000000,  sev: "high", desc: "Adobe suffered a massive breach exposing encrypted passwords and credit card data. Password hints were stored in plain text, allowing easy reconstruction of many passwords.", classes: ["Email addresses","Password hints","Passwords","Usernames"] },
+    { name: "Canva",     date: "2019-05-24", count: 137000000,  sev: "med",  desc: "Design platform Canva was attacked, exposing usernames, email addresses, names, cities of residence, and bcrypt-hashed passwords for 137 million users.", classes: ["Email addresses","Geographic locations","Names","Passwords","Usernames"] }
   ],
-  "admin@test.com":[
-    {name:"RockYou2021",date:"2021-06-04",count:8400000000,sev:"high",desc:"A compilation of 8.4 billion password entries — the largest ever leaked — was posted on a hacking forum, aggregated from multiple prior breaches.",classes:["Passwords"]},
-    {name:"Collection #1",date:"2019-01-07",count:772000000,sev:"high",desc:"A massive credential stuffing collection containing 773 million unique email addresses and millions of corresponding passwords was made publicly available.",classes:["Email addresses","Passwords"]}
+  "admin@test.com": [
+    { name: "RockYou2021",   date: "2021-06-04", count: 8400000000, sev: "high", desc: "A compilation of 8.4 billion password entries — the largest ever leaked — was posted on a hacking forum, aggregated from multiple prior breaches.", classes: ["Passwords"] },
+    { name: "Collection #1", date: "2019-01-07", count: 772000000,  sev: "high", desc: "A massive credential stuffing collection containing 773 million unique email addresses and millions of corresponding passwords was made publicly available.", classes: ["Email addresses","Passwords"] }
   ],
-  "user@gmail.com":[
-    {name:"Dropbox",date:"2012-07-01",count:68648009,sev:"med",desc:"Dropbox suffered a breach exposing credentials for tens of millions of users. Passwords were hashed with bcrypt, limiting the immediate impact.",classes:["Email addresses","Passwords"]}
+  "user@gmail.com": [
+    { name: "Dropbox", date: "2012-07-01", count: 68648009, sev: "med", desc: "Dropbox suffered a breach exposing credentials for tens of millions of users. Passwords were hashed with bcrypt, limiting the immediate impact.", classes: ["Email addresses","Passwords"] }
   ]
 };
 
-function fmt(n){
-  if(n>=1e9)return(n/1e9).toFixed(1)+'B';
-  if(n>=1e6)return Math.round(n/1e6)+'M';
-  if(n>=1e3)return Math.round(n/1e3)+'K';
+function fmt(n) {
+  if (n >= 1e9) return (n / 1e9).toFixed(1) + 'B';
+  if (n >= 1e6) return Math.round(n / 1e6) + 'M';
+  if (n >= 1e3) return Math.round(n / 1e3) + 'K';
   return n;
 }
-function wait(ms){return new Promise(r=>setTimeout(r,ms));}
-function reset(){
-  const rb=document.getElementById('resultBanner');
-  rb.className='result-banner';rb.style.display='none';
-  document.getElementById('aiCard').className='ai-card';
-  document.getElementById('breachSection').style.display='none';
-  document.getElementById('breachList').innerHTML='';
-  ['s1','s2','s3'].forEach(id=>document.getElementById(id).className='stat-card');
+
+function reset() {
+  const rb = document.getElementById('resultBanner');
+  rb.className = 'result-banner';
+  rb.style.display = '';
+  document.getElementById('aiCard').className = 'ai-card';
+  document.getElementById('breachSection').style.display = 'none';
+  document.getElementById('breachList').innerHTML = '';
+  ['s1', 's2', 's3'].forEach(id => document.getElementById(id).className = 'stat-card');
 }
-async function runScan(){
-  const email=document.getElementById('emailInp').value.trim().toLowerCase();
-  const apiKey=document.getElementById('apiKey').value.trim();
-  if(!email||!email.includes('@')){document.getElementById('emailInp').focus();return;}
-  const btn=document.getElementById('scanBtn');
-  btn.disabled=true;reset();
-  const statusRow=document.getElementById('statusRow');
-  const statusTxt=document.getElementById('statusTxt');
-  statusRow.className='status-row show';
-  for(let s of['Hashing query for privacy...','Cross-referencing breach records...','Compiling results...']){
-    statusTxt.textContent=s;await wait(520);
+
+async function runScan() {
+  const email  = document.getElementById('emailInp').value.trim().toLowerCase();
+  const apiKey = document.getElementById('apiKey').value.trim();
+  if (!email || !email.includes('@')) { document.getElementById('emailInp').focus(); return; }
+
+  const btn = document.getElementById('scanBtn');
+  btn.disabled = true;
+  reset();
+
+  const statusRow = document.getElementById('statusRow');
+  const statusTxt = document.getElementById('statusTxt');
+  statusRow.className = 'status-row show';
+
+  for (const s of ['Hashing query for privacy...', 'Cross-referencing breach records...', 'Compiling results...']) {
+    statusTxt.textContent = s;
+    await new Promise(r => setTimeout(r, 520));
   }
-  statusRow.className='status-row';
-  showResults(DB[email]||[],apiKey);
-  btn.disabled=false;
+
+  statusRow.className = 'status-row';
+  showResults(DB[email] || [], apiKey);
+  btn.disabled = false;
 }
-function showResults(breaches,apiKey){
-  const banner=document.getElementById('resultBanner');
-  banner.style.display='block';
-  if(breaches.length===0){
-    banner.className='result-banner safe show';
-    document.getElementById('bannerIcon').className='ti ti-shield-check';
-    document.getElementById('bannerTitle').textContent='No breaches found';
-    document.getElementById('bannerSub').textContent='This email does not appear in any known breach database.';
+
+function showResults(breaches, apiKey) {
+  const banner = document.getElementById('resultBanner');
+  banner.style.display = 'block';
+
+  if (breaches.length === 0) {
+    banner.className = 'result-banner safe show';
+    document.getElementById('bannerIcon').className = 'ti ti-shield-check';
+    document.getElementById('bannerTitle').textContent = 'No breaches found';
+    document.getElementById('bannerSub').textContent = 'This email does not appear in any known breach database.';
     return;
   }
-  banner.className='result-banner unsafe show';
-  document.getElementById('bannerIcon').className='ti ti-alert-triangle';
-  document.getElementById('bannerTitle').textContent=`Found in ${breaches.length} breach${breaches.length>1?'es':''}`;
-  const total=breaches.reduce((a,b)=>a+b.count,0);
-  document.getElementById('bannerSub').textContent=`Across approximately ${fmt(total)} exposed records.`;
-  const allClasses=[...new Set(breaches.flatMap(b=>b.classes))];
-  document.getElementById('sv1').textContent=breaches.length;
-  document.getElementById('sv2').textContent=fmt(total);
-  document.getElementById('sv3').textContent=allClasses.length;
-  ['s1','s2','s3'].forEach(id=>document.getElementById(id).className='stat-card show');
-  document.getElementById('breachSection').style.display='block';
-  document.getElementById('breachList').innerHTML=breaches.map((b,i)=>`
+
+  banner.className = 'result-banner unsafe show';
+  document.getElementById('bannerIcon').className = 'ti ti-alert-triangle';
+  document.getElementById('bannerTitle').textContent = `Found in ${breaches.length} breach${breaches.length > 1 ? 'es' : ''}`;
+
+  const total = breaches.reduce((a, b) => a + b.count, 0);
+  document.getElementById('bannerSub').textContent = `Across approximately ${fmt(total)} exposed records.`;
+
+  const allClasses = [...new Set(breaches.flatMap(b => b.classes))];
+  document.getElementById('sv1').textContent = breaches.length;
+  document.getElementById('sv2').textContent = fmt(total);
+  document.getElementById('sv3').textContent = allClasses.length;
+  ['s1', 's2', 's3'].forEach(id => document.getElementById(id).className = 'stat-card show');
+
+  document.getElementById('breachSection').style.display = 'block';
+  document.getElementById('breachList').innerHTML = breaches.map((b, i) => `
     <div class="b-card" id="bc${i}" onclick="toggle(${i})">
       <div class="b-head">
         <div class="b-dot ${b.sev}"></div>
         <div class="b-name">${b.name}</div>
         <div class="b-right">
-          <span class="b-date">${b.date.slice(0,7)}</span>
-          <span class="sev-badge sev-${b.sev}">${b.sev==='high'?'High':b.sev==='med'?'Medium':'Low'}</span>
+          <span class="b-date">${b.date.slice(0, 7)}</span>
+          <span class="sev-badge sev-${b.sev}">${b.sev === 'high' ? 'High' : b.sev === 'med' ? 'Medium' : 'Low'}</span>
           <i class="ti ti-chevron-down b-chevron" aria-hidden="true"></i>
         </div>
       </div>
       <div class="b-body">
         <div class="b-desc">${b.desc}</div>
-        <div class="b-tags">${b.classes.map(c=>`<span class="b-tag">${c}</span>`).join('')}</div>
+        <div class="b-tags">${b.classes.map(c => `<span class="b-tag">${c}</span>`).join('')}</div>
         <div class="b-count">Records exposed: <strong>${fmt(b.count)}</strong></div>
       </div>
     </div>`).join('');
-  getAI(breaches,apiKey);
+
+  getAI(breaches, apiKey);
 }
-function toggle(i){
-  const card=document.getElementById(`bc${i}`);
-  const open=card.classList.contains('open');
-  document.querySelectorAll('.b-card').forEach(c=>c.classList.remove('open'));
-  if(!open)card.classList.add('open');
+
+function toggle(i) {
+  const card = document.getElementById(`bc${i}`);
+  const open = card.classList.contains('open');
+  document.querySelectorAll('.b-card').forEach(c => c.classList.remove('open'));
+  if (!open) card.classList.add('open');
 }
-async function getAI(breaches,apiKey){
-  const card=document.getElementById('aiCard');
-  const textEl=document.getElementById('aiText');
-  card.className='ai-card show';
-  if(!apiKey){textEl.textContent='Add your Gemini API key above to enable AI risk assessment.';return;}
-  textEl.innerHTML='<span class="cursor"></span>';
-  const summary=breaches.map(b=>`${b.name} (${b.date.slice(0,4)}): exposed ${b.classes.join(', ')}`).join('; ');
-  const prompt=`You are a cybersecurity expert advising a non-technical person. Their email appeared in ${breaches.length} data breach(es): ${summary}. Write 3-4 sentences of plain prose explaining: the real-world risk, the single most urgent action, and one or two other concrete steps. Be calm, direct, practical. No bullet points. No headers. Do not mention the email address.`;
-  try{
-    const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})
+
+async function getAI(breaches, apiKey) {
+  const card   = document.getElementById('aiCard');
+  const textEl = document.getElementById('aiText');
+  card.className = 'ai-card show';
+
+  if (!apiKey) {
+    textEl.textContent = 'Add your Gemini API key above to enable AI risk assessment.';
+    return;
+  }
+
+  textEl.innerHTML = '<span class="cursor"></span>';
+
+  const summary = breaches.map(b => `${b.name} (${b.date.slice(0, 4)}): exposed ${b.classes.join(', ')}`).join('; ');
+  const prompt  = `You are a cybersecurity expert advising a non-technical person. Their email appeared in ${breaches.length} data breach(es): ${summary}. Write 3-4 sentences of plain prose explaining: the real-world risk, the single most urgent action, and one or two other concrete steps. Be calm, direct, practical. No bullet points. No headers. Do not mention the email address.`;
+
+  try {
+    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
     });
-    const d=await r.json();
-    if(d.error){textEl.textContent='API error: '+d.error.message;return;}
-    const t=d.candidates?.[0]?.content?.parts?.[0]?.text||'Analysis unavailable.';
-    textEl.textContent='';
-    let i=0;
-    (function type(){if(i<t.length){textEl.textContent+=t[i++];setTimeout(type,11);}})();
-  }catch(e){textEl.textContent='Could not reach Gemini API. Check your key and try again.';}
+    const d = await r.json();
+    if (d.error) { textEl.textContent = 'API error: ' + d.error.message; return; }
+    const t = d.candidates?.[0]?.content?.parts?.[0]?.text || 'Analysis unavailable.';
+    textEl.textContent = '';
+    let i = 0;
+    (function type() { if (i < t.length) { textEl.textContent += t[i++]; setTimeout(type, 11); } })();
+  } catch {
+    textEl.textContent = 'Could not reach Gemini API. Check your key and try again.';
+  }
 }
-document.getElementById('emailInp').addEventListener('keydown',e=>{if(e.key==='Enter')runScan();});
+
+document.getElementById('emailInp').addEventListener('keydown', e => { if (e.key === 'Enter') runScan(); });
 </script>
+
+</body>
+</html>
