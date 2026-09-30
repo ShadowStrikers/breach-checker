@@ -69,21 +69,6 @@
     }
     .hero p { font-size: 14px; color: var(--text-dim); line-height: 1.65; }
 
-    /* ── API Banner ── */
-    .api-banner {
-      background: rgba(168,85,247,0.06);
-      border: 1px solid var(--accent-border);
-      border-radius: 10px;
-      padding: 11px 14px;
-      margin-bottom: 1.25rem;
-      font-size: 12.5px;
-      color: var(--text-dim);
-      display: flex; align-items: flex-start; gap: 9px; line-height: 1.55;
-    }
-    .api-banner i { font-size: 15px; flex-shrink: 0; margin-top: 1px; color: var(--accent); }
-    .api-banner a { color: var(--accent); font-weight: 500; text-decoration: none; }
-    .api-banner a:hover { text-decoration: underline; }
-
     /* ── Card / Inputs ── */
     .card {
       background: var(--surface);
@@ -115,6 +100,25 @@
     .inp::placeholder { color: var(--text-dim); }
 
     .input-wrap { display: flex; gap: 8px; }
+
+    .ai-toggle { margin-top: 14px; }
+    .ai-toggle summary {
+      cursor: pointer; font-size: 12px; color: var(--text-dim);
+      list-style: none; display: flex; align-items: center; gap: 6px;
+      user-select: none;
+    }
+    .ai-toggle summary::-webkit-details-marker { display: none; }
+    .ai-toggle summary i { font-size: 12px; color: var(--text-dim); transition: transform .15s; }
+    .ai-toggle[open] summary i { transform: rotate(90deg); }
+    .ai-toggle .opt-tag {
+      font-size: 9.5px; padding: 1px 7px; border-radius: 5px;
+      background: var(--surface3); border: 1px solid var(--accent-border);
+      color: var(--text-dim); font-family: var(--mono); letter-spacing: .04em;
+    }
+    .ai-toggle .inp { margin-top: 10px; margin-bottom: 0; }
+    .ai-toggle-hint { font-size: 12px; color: var(--text-dim); line-height: 1.55; margin: 10px 0 0; }
+    .ai-toggle-hint a { color: var(--accent); text-decoration: none; }
+    .ai-toggle-hint a:hover { text-decoration: underline; }
     .email-inp {
       flex: 1;
       border: 1px solid var(--accent-border);
@@ -150,6 +154,8 @@
     /* ── Privacy row ── */
     .privacy-row { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--text-dim); margin-bottom: 1.5rem; }
     .privacy-row i { font-size: 13px; color: var(--accent); opacity: .7; }
+    .privacy-row a { color: var(--text-dim); text-decoration: underline; text-underline-offset: 2px; }
+    .privacy-row a:hover { color: var(--accent); }
 
     /* ── Status ── */
     .status-row { display: none; align-items: center; gap: 10px; padding: 10px 0; font-size: 13px; color: var(--text-dim); }
@@ -169,6 +175,7 @@
     .result-banner.show { display: block; }
     .result-banner.safe   { background: rgba(0,212,255,0.06); border: 1px solid var(--accent-border2); }
     .result-banner.unsafe { background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.3); }
+    .result-banner.warn   { background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.3); }
     .banner-top { display: flex; align-items: center; gap: 12px; }
     .banner-icon {
       width: 36px; height: 36px;
@@ -180,9 +187,11 @@
     }
     .safe  .banner-icon i { font-size: 18px; color: var(--accent); }
     .unsafe .banner-icon i { font-size: 18px; color: var(--red); }
+    .warn  .banner-icon i { font-size: 18px; color: var(--amber); }
     .banner-title { font-size: 15px; font-weight: 600; }
     .safe  .banner-title { color: #67e8f9; }
     .unsafe .banner-title { color: var(--red); }
+    .warn  .banner-title { color: var(--amber); }
     .banner-sub { font-size: 12.5px; margin-top: 3px; color: var(--text-dim); }
 
     /* ── Stats ── */
@@ -277,34 +286,32 @@
     <div class="brand-icon"><i class="ti ti-shield-search" aria-hidden="true"></i></div>
     <div>
       <div class="brand-name">BreachWatch</div>
-      <div class="brand-version">v1.0.0 — powered by Gemini (free)</div>
+      <div class="brand-version">v2.0.0 — powered by XposedOrNot + Gemini (free)</div>
     </div>
   </header>
 
   <main>
     <div class="hero">
       <h1>Have you been<br>compromised?</h1>
-      <p>Check if your email appears in known data breaches, with AI-generated risk analysis — completely free.</p>
-    </div>
-
-    <div class="api-banner" role="note">
-      <i class="ti ti-info-circle" aria-hidden="true"></i>
-      <span>Uses the Google Gemini free API. Get your key at <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com</a> — no credit card needed.</span>
+      <p>Check if your email appears in known data breaches — completely free, nothing stored.</p>
     </div>
 
     <div class="card">
-      <div class="input-label">Gemini API key</div>
-      <input class="inp" type="text" id="apiKey" placeholder="Paste your Gemini API key here..." autocomplete="off" aria-label="Gemini API key" />
       <div class="input-label">Email address</div>
       <div class="input-wrap">
         <input class="email-inp" type="email" id="emailInp" placeholder="you@example.com" autocomplete="off" spellcheck="false" aria-label="Email address to check" />
         <button class="scan-btn" id="scanBtn" onclick="runScan()">Scan now</button>
       </div>
+      <details class="ai-toggle">
+        <summary><i class="ti ti-chevron-right" aria-hidden="true"></i> AI risk summary <span class="opt-tag">optional</span></summary>
+        <p class="ai-toggle-hint">Add a free <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Gemini API key</a> for a plain-English breakdown of your risk and what to do about it.</p>
+        <input class="inp" type="text" id="apiKey" placeholder="Paste your Gemini API key here..." autocomplete="off" aria-label="Gemini API key (optional, enables AI risk summary)" />
+      </details>
     </div>
 
     <div class="privacy-row">
       <i class="ti ti-lock" aria-hidden="true"></i>
-      API key and email are never stored or sent anywhere except Google's API
+      Nothing is stored — your email only leaves the browser to check <a href="https://xposedornot.com/" target="_blank" rel="noopener">XposedOrNot</a>'s breach database.
     </div>
 
     <div class="status-row" id="statusRow" role="status" aria-live="polite">
@@ -343,25 +350,42 @@
   </main>
 
   <footer>
-    Demo uses simulated breach data. For production, connect the <a href="https://haveibeenpwned.com/API/v3" target="_blank" rel="noopener">HIBP API v3</a> with k-anonymity so raw emails are never transmitted. Gemini free tier: 1,500 requests/day.
+    Breach data via <a href="https://xposedornot.com/" target="_blank" rel="noopener">XposedOrNot</a> · also see <a href="https://haveibeenpwned.com/API/v3" target="_blank" rel="noopener">HIBP API v3</a>
   </footer>
 </div>
 
 <script>
-const DB = {
-  "test@example.com": [
-    { name: "LinkedIn",  date: "2021-06-22", count: 700000000,  sev: "high", desc: "In June 2021, data associated with 700 million LinkedIn accounts was scraped and posted for sale. Exposed data included professional profiles, phone numbers, and location data.", classes: ["Email addresses","Phone numbers","Geographic locations","Job titles","Names"] },
-    { name: "Adobe",     date: "2013-10-04", count: 153000000,  sev: "high", desc: "Adobe suffered a massive breach exposing encrypted passwords and credit card data. Password hints were stored in plain text, allowing easy reconstruction of many passwords.", classes: ["Email addresses","Password hints","Passwords","Usernames"] },
-    { name: "Canva",     date: "2019-05-24", count: 137000000,  sev: "med",  desc: "Design platform Canva was attacked, exposing usernames, email addresses, names, cities of residence, and bcrypt-hashed passwords for 137 million users.", classes: ["Email addresses","Geographic locations","Names","Passwords","Usernames"] }
-  ],
-  "admin@test.com": [
-    { name: "RockYou2021",   date: "2021-06-04", count: 8400000000, sev: "high", desc: "A compilation of 8.4 billion password entries — the largest ever leaked — was posted on a hacking forum, aggregated from multiple prior breaches.", classes: ["Passwords"] },
-    { name: "Collection #1", date: "2019-01-07", count: 772000000,  sev: "high", desc: "A massive credential stuffing collection containing 773 million unique email addresses and millions of corresponding passwords was made publicly available.", classes: ["Email addresses","Passwords"] }
-  ],
-  "user@gmail.com": [
-    { name: "Dropbox", date: "2012-07-01", count: 68648009, sev: "med", desc: "Dropbox suffered a breach exposing credentials for tens of millions of users. Passwords were hashed with bcrypt, limiting the immediate impact.", classes: ["Email addresses","Passwords"] }
-  ]
-};
+const XON_ENDPOINT = 'https://api.xposedornot.com/v1/breach-analytics?email=';
+
+const SENSITIVE_TYPES = ['password', 'social security', 'credit card', 'financial', 'bank account', 'security question'];
+
+function classifySeverity(records, classes) {
+  const hasSensitive = classes.some(c => SENSITIVE_TYPES.some(s => c.toLowerCase().includes(s)));
+  if (hasSensitive || records >= 10000000) return 'high';
+  if (records >= 100000) return 'med';
+  return 'low';
+}
+
+async function fetchBreaches(email) {
+  const r = await fetch(XON_ENDPOINT + encodeURIComponent(email));
+  if (!r.ok) throw new Error(`XposedOrNot API returned ${r.status}`);
+  const d = await r.json();
+  const details = d.ExposedBreaches?.breaches_details;
+  if (!details) return [];
+
+  return details.map(b => {
+    const classes = (b.xposed_data || '').split(';').map(s => s.trim()).filter(Boolean);
+    const count = b.xposed_records || 0;
+    return {
+      name: b.breach,
+      date: b.xposed_date || '—',
+      count,
+      desc: b.details || 'No further details are available for this breach.',
+      classes: classes.length ? classes : ['Unknown data types'],
+      sev: classifySeverity(count, classes),
+    };
+  }).sort((a, b) => b.count - a.count);
+}
 
 function fmt(n) {
   if (n >= 1e9) return (n / 1e9).toFixed(1) + 'B';
@@ -393,14 +417,40 @@ async function runScan() {
   const statusTxt = document.getElementById('statusTxt');
   statusRow.className = 'status-row show';
 
-  for (const s of ['Hashing query for privacy...', 'Cross-referencing breach records...', 'Compiling results...']) {
-    statusTxt.textContent = s;
-    await new Promise(r => setTimeout(r, 520));
+  const stages = ['Querying XposedOrNot breach database...', 'Cross-referencing exposed records...', 'Compiling results...'];
+  let stage = 0;
+  statusTxt.textContent = stages[0];
+  const stageTimer = setInterval(() => {
+    stage = Math.min(stage + 1, stages.length - 1);
+    statusTxt.textContent = stages[stage];
+  }, 550);
+
+  let breaches = null;
+  let error = null;
+  try {
+    [breaches] = await Promise.all([fetchBreaches(email), new Promise(r => setTimeout(r, 700))]);
+  } catch (err) {
+    error = err;
   }
 
+  clearInterval(stageTimer);
   statusRow.className = 'status-row';
-  showResults(DB[email] || [], apiKey);
+
+  if (error) {
+    showError();
+  } else {
+    showResults(breaches, apiKey);
+  }
   btn.disabled = false;
+}
+
+function showError() {
+  const banner = document.getElementById('resultBanner');
+  banner.className = 'result-banner warn show';
+  banner.style.display = 'block';
+  document.getElementById('bannerIcon').className = 'ti ti-alert-circle';
+  document.getElementById('bannerTitle').textContent = 'Could not complete scan';
+  document.getElementById('bannerSub').textContent = 'The breach database could not be reached. Please try again in a moment.';
 }
 
 function showResults(breaches, apiKey) {
@@ -435,7 +485,7 @@ function showResults(breaches, apiKey) {
         <div class="b-dot ${b.sev}"></div>
         <div class="b-name">${b.name}</div>
         <div class="b-right">
-          <span class="b-date">${b.date.slice(0, 7)}</span>
+          <span class="b-date">${b.date}</span>
           <span class="sev-badge sev-${b.sev}">${b.sev === 'high' ? 'High' : b.sev === 'med' ? 'Medium' : 'Low'}</span>
           <i class="ti ti-chevron-down b-chevron" aria-hidden="true"></i>
         </div>
@@ -469,7 +519,7 @@ async function getAI(breaches, apiKey) {
 
   textEl.innerHTML = '<span class="cursor"></span>';
 
-  const summary = breaches.map(b => `${b.name} (${b.date.slice(0, 4)}): exposed ${b.classes.join(', ')}`).join('; ');
+  const summary = breaches.map(b => `${b.name} (${b.date}): exposed ${b.classes.join(', ')}`).join('; ');
   const prompt  = `You are a cybersecurity expert advising a non-technical person. Their email appeared in ${breaches.length} data breach(es): ${summary}. Write 3-4 sentences of plain prose explaining: the real-world risk, the single most urgent action, and one or two other concrete steps. Be calm, direct, practical. No bullet points. No headers. Do not mention the email address.`;
 
   try {
